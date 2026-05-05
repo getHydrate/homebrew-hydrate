@@ -71,19 +71,19 @@ end
 class Hydrate < Formula
   desc "Memory layer for Claude Code - persistent context across sessions"
   homepage "https://gethydrate.dev"
-  version "0.2.0-beta.1"
+  version "0.2.0-beta.2"
   license :cannot_represent
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.1/hydrate-darwin-arm64.tar.gz",
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.2/hydrate-darwin-arm64.tar.gz",
           using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "4cb477af9e57a065663dfca344c2978f0b82ae7d94bd18381e2d7bd1294b2bd6"
+      sha256 "e5ceb4f2b2663ec98029b4651f0c6ba33a81071f7d0d30e858e50ffaf65235b7"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.1/hydrate-darwin-amd64.tar.gz",
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.2/hydrate-darwin-amd64.tar.gz",
           using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "86f128c4fd3b891e1f97288146d9f58eda6c9ab0b15a460022e2cc2b8446e278"
+      sha256 "586995f2d37e4f4b17cc6d8bb9d5f903992019c8d8df659b011dc7c066923827"
     end
   end
 
@@ -93,6 +93,30 @@ class Hydrate < Formula
     bin.install "hydrate-server"
     bin.install "claude-context"
     bin.install "claude-capture"
+    # Bundled VS Code extension — `hydrate install-vscode` looks here.
+    pkgshare.install "hydrate.vsix" if File.exist?("hydrate.vsix")
+  end
+
+  def caveats
+    <<~EOS
+      To finish installing Hydrate, wire the Claude Code hooks
+      (one-time after install, plus after each `brew upgrade hydrate`
+      to refresh the embedded slash command templates):
+
+          hydrate install-hooks
+
+      Then install the VS Code extension (optional, but recommended
+      if you use VS Code with GitHub Copilot):
+
+          hydrate install-vscode
+
+      For Sedasoft enterprise users, register against the server:
+
+          hydrate enterprise install --config=./sedasoft-enterprise-config.json
+
+      Restart any open Claude Code sessions after `install-hooks`
+      so they pick up the new settings.
+    EOS
   end
 
   test do
