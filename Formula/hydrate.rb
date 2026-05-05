@@ -71,19 +71,19 @@ end
 class Hydrate < Formula
   desc "Memory layer for Claude Code - persistent context across sessions"
   homepage "https://gethydrate.dev"
-  version "0.2.0-beta.2"
+  version "0.2.0-beta.3"
   license :cannot_represent
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.2/hydrate-darwin-arm64.tar.gz",
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.3/hydrate-darwin-arm64.tar.gz",
           using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "e5ceb4f2b2663ec98029b4651f0c6ba33a81071f7d0d30e858e50ffaf65235b7"
+      sha256 "3c1f4bf5a0c023cb9a5218b0b4c40cfdb2cc7fa7ba59c5c345282d3423fe96a7"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.2/hydrate-darwin-amd64.tar.gz",
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.3/hydrate-darwin-amd64.tar.gz",
           using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "586995f2d37e4f4b17cc6d8bb9d5f903992019c8d8df659b011dc7c066923827"
+      sha256 "a15ef5f705dcd6196600e4c5ab521f74ff8ecc86d05445cae1d2cc17cb8347b0"
     end
   end
 
