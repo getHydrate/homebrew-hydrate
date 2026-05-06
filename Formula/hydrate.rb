@@ -71,19 +71,19 @@ end
 class Hydrate < Formula
   desc "Memory layer for Claude Code - persistent context across sessions"
   homepage "https://gethydrate.dev"
-  version "0.2.0-beta.3"
+  version "0.2.0-beta.4"
   license :cannot_represent
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.3/hydrate-darwin-arm64.tar.gz",
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.4/hydrate-darwin-arm64.tar.gz",
           using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "3c1f4bf5a0c023cb9a5218b0b4c40cfdb2cc7fa7ba59c5c345282d3423fe96a7"
+      sha256 "dac721e810cca788dad58589be2aea3696aaa146a9d0deb5240de930c89246d6"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.3/hydrate-darwin-amd64.tar.gz",
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.2.0-beta.4/hydrate-darwin-amd64.tar.gz",
           using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "a15ef5f705dcd6196600e4c5ab521f74ff8ecc86d05445cae1d2cc17cb8347b0"
+      sha256 "a767867387458fb3bc51fac64e472077e550bcac83b29895ac6624ab8a50c51e"
     end
   end
 
@@ -99,23 +99,23 @@ class Hydrate < Formula
 
   def caveats
     <<~EOS
-      To finish installing Hydrate, wire the Claude Code hooks
-      (one-time after install, plus after each `brew upgrade hydrate`
-      to refresh the embedded slash command templates):
+      To finish setup, run:
 
-          hydrate install-hooks
+          hydrate setup
 
-      Then install the VS Code extension (optional, but recommended
-      if you use VS Code with GitHub Copilot):
+      That walks you through every optional configuration step
+      (hooks, VS Code, enterprise registration, beta lock-in, plan
+      tier, economy mode, LLM keys). Each step is skippable.
 
-          hydrate install-vscode
+      To audit what's configured at any time:
 
-      For Sedasoft enterprise users, register against the server:
+          hydrate doctor
 
-          hydrate enterprise install --config=./sedasoft-enterprise-config.json
+      Migrating from another machine? If you have a
+      hydrate-user-config-*.json from `hydrate user-config export`
+      on your other machine, import it here:
 
-      Restart any open Claude Code sessions after `install-hooks`
-      so they pick up the new settings.
+          hydrate user-config import --config=./hydrate-user-config-*.json
     EOS
   end
 
