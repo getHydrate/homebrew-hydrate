@@ -7,28 +7,28 @@
 class Hydrate < Formula
   desc "Local-first persistent memory for Claude Code, Codex, Vibe, and MCP"
   homepage "https://gethydrate.dev"
-  version "0.4.3"
+  version "0.4.4"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.3/hydrate-v0.4.3-darwin-arm64.tar.gz"
-      sha256 "f76a8278715b61ea492c8223fc76ce1636977e0adf0fa547faab37461b6a4a32"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.4/hydrate-v0.4.4-darwin-arm64.tar.gz"
+      sha256 "a94834514e22f1bd7339d459fa3f4ad57373fd1e686dc63a5e87fbd5739fc0a7"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.3/hydrate-v0.4.3-darwin-amd64.tar.gz"
-      sha256 "056968e5a1c24d80c30feac2cf017f01fd57c33406934aac0bc3bcdce88b5699"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.4/hydrate-v0.4.4-darwin-amd64.tar.gz"
+      sha256 "0cb3953288d24aa45e454c83ae8be91647b952bbcfc93448d023e63522cf94dd"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.3/hydrate-v0.4.3-linux-arm64.tar.gz"
-      sha256 "74b10c5020e11eb13656436b5e8b01240bdea5edc73efaabaeb25ee8c187f574"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.4/hydrate-v0.4.4-linux-arm64.tar.gz"
+      sha256 "02f3dc927600891eacbe1953365c2c6e1c6ed34cef4c1e52adea8c99e693b0ab"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.3/hydrate-v0.4.3-linux-amd64.tar.gz"
-      sha256 "f7b0a1d8560d7605f7f731b2f3f932e4c833272891bc9dc00c05cbb51e2d0d4c"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.4/hydrate-v0.4.4-linux-amd64.tar.gz"
+      sha256 "3b52643ffbb124a8037e1037a14b5897e983aedb39b3e1ec8c984cfe0edc6ebe"
     end
   end
 
