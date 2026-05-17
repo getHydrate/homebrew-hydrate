@@ -1,54 +1,125 @@
-# typed: false
-# frozen_string_literal: true
+require "download_strategy"
+require "json"
 
-# Hydrate — local-first persistent memory for Claude Code.
-# Tap: getHydrate/hydrate
-# Install: brew install getHydrate/hydrate/hydrate
-class Hydrate < Formula
-  desc "Local-first persistent memory for Claude Code (and Codex)"
-  homepage "https://gethydrate.dev"
-  version "0.4.0"
-  license "Apache-2.0"
+# GitHubPrivateRepositoryReleaseDownloadStrategy — fetches release assets from
+# a private GitHub repo by resolving the release-tag URL to the asset's API
+# endpoint and authenticating with HOMEBREW_GITHUB_API_TOKEN.
+#
+# Beta testers must export HOMEBREW_GITHUB_API_TOKEN with `repo` scope (a
+# fine-grained PAT scoped to getHydrate/hydrate-public is enough). The
+# Authorization header is only attached to api.github.com requests, so the
+# token never leaks to other hosts.
+class GitHubPrivateRepositoryReleaseDownloadStrategy < CurlDownloadStrategy
+  def initialize(url, name, version, **meta)
+    super
+    parse_url_pattern
+  end
 
-  on_macos do
-    on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.0/hydrate-v0.4.0-darwin-arm64.tar.gz"
-      sha256 "e102ddbeab65b40a365a49d8e9e31cc52b8db40e547a7a759411e260db1ad8a8"
-    end
-    on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.0/hydrate-v0.4.0-darwin-amd64.tar.gz"
-      sha256 "062e4d7288b861cbbb1c44628a2a3e515c2b501ef8f20412c7f5f875a23bb7c7"
+  def parse_url_pattern
+    pattern = %r{https://github.com/([^/]+)/([^/]+)/releases/download/([^/]+)/(\S+)}
+    match = @url.match(pattern)
+    raise CurlDownloadStrategyError, "Invalid GitHub release URL: #{@url}" unless match
+    @owner, @repo, @tag, @filename = match.captures
+  end
+
+  def github_token
+    @github_token ||= begin
+      token = ENV.fetch("HOMEBREW_GITHUB_API_TOKEN", nil)
+      if token.nil? || token.empty?
+        raise CurlDownloadStrategyError, <<~EOS
+          HOMEBREW_GITHUB_API_TOKEN must be set with `repo` scope to install hydrate
+          from the private #{@owner}/#{@repo} release.
+
+          Create a token at https://github.com/settings/personal-access-tokens/new
+          with read access to #{@owner}/#{@repo}, then:
+
+            export HOMEBREW_GITHUB_API_TOKEN="ghp_yourtokenhere"
+        EOS
+      end
+      token
     end
   end
 
-  on_linux do
+  def asset_id
+    @asset_id ||= begin
+      release_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}"
+      json = curl_output(
+        "--header", "Authorization: token #{github_token}",
+        "--header", "Accept: application/vnd.github+json",
+        "--silent", "--fail", "--location",
+        release_url,
+      ).stdout
+      release = JSON.parse(json)
+      asset = release.fetch("assets", []).find { |a| a["name"] == @filename }
+      raise CurlDownloadStrategyError, "Asset #{@filename} not found in #{@owner}/#{@repo}@#{@tag}" if asset.nil?
+      asset["id"]
+    end
+  end
+
+  def _fetch(url:, resolved_url:, timeout:)
+    api_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/assets/#{asset_id}"
+    curl_download(
+      "--header", "Authorization: token #{github_token}",
+      "--header", "Accept: application/octet-stream",
+      api_url,
+      to: temporary_path,
+      timeout: timeout,
+    )
+  end
+end
+
+class Hydrate < Formula
+  desc "Memory layer for Claude Code - persistent context across sessions"
+  homepage "https://gethydrate.dev"
+  version "0.4.1"
+  license :cannot_represent
+
+  on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.0/hydrate-v0.4.0-linux-arm64.tar.gz"
-      sha256 "af4e098aaa18e22b1547cb2cfa40d78e7c9975a62477136a778ae6f0e842de0d"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.1/hydrate-darwin-arm64.tar.gz",
+          using: GitHubPrivateRepositoryReleaseDownloadStrategy
+      sha256 "4f30b37e9a6a461343e6ad78b73004da080ffc64b3db058a74c3f8ac4cbae505"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.0/hydrate-v0.4.0-linux-amd64.tar.gz"
-      sha256 "0c39aaa2bca05b33b6981b11b97c728501dbb99cac510f75c51b0c9e130ee174"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.1/hydrate-darwin-amd64.tar.gz",
+          using: GitHubPrivateRepositoryReleaseDownloadStrategy
+      sha256 "a1e591fad336b8fabec0ee7d7acdb7588e5157601fdd799ba5567a509b190be5"
     end
   end
 
   def install
-    bin.install Dir["bin/*"]
+    bin.install "hydrate"
+    bin.install "hydrate-mcp"
+    bin.install "hydrate-server"
+    bin.install "claude-context"
+    bin.install "claude-capture"
+    # Bundled VS Code extension — `hydrate install-vscode` looks here.
+    pkgshare.install "hydrate.vsix" if File.exist?("hydrate.vsix")
   end
 
   def caveats
     <<~EOS
-      Quick start:
-        hydrate setup           # interactive first-run: license, hooks, MCP, autostart
-        hydrate doctor          # 16-point health check
-        hydrate dashboard       # opens the local dashboard
+      To finish setup, run:
 
-      First-time onboarding form (license + project init + team git + import):
-        https://gethydrate.dev/install/first-steps
+          hydrate setup
+
+      That walks you through every optional configuration step
+      (hooks, VS Code, enterprise registration, beta lock-in, plan
+      tier, economy mode, LLM keys). Each step is skippable.
+
+      To audit what's configured at any time:
+
+          hydrate doctor
+
+      Migrating from another machine? If you have a
+      hydrate-user-config-*.json from `hydrate user-config export`
+      on your other machine, import it here:
+
+          hydrate user-config import --config=./hydrate-user-config-*.json
     EOS
   end
 
   test do
-    assert_match "hydrate", shell_output("#{bin}/hydrate version")
+    system "#{bin}/hydrate", "--version"
   end
 end
