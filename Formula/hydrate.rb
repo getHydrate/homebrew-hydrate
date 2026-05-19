@@ -18,22 +18,22 @@ class Hydrate < Formula
   on_macos do
     on_arm do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-darwin-arm64.tar.gz"
-      sha256 "6f746d740b17f172e81c5b80bc2ca41bfcd31282f881ef8c4341c299c9d0a1e1"
+      sha256 "f3da3c7adb96e61fb7162107182e77054f81a04837c402a4b3519aec37386dda"
     end
     on_intel do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-darwin-amd64.tar.gz"
-      sha256 "cda0be0514b24fa38489e54da02d72580dddac1aebbe899e56175c8f5048fc55"
+      sha256 "a5ad5b9ce2aada137486be9374cb2a493e000acd24b5ca8c24e10e6bb2a7786b"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-linux-arm64.tar.gz"
-      sha256 "37b3320455a5c01cb2f1632bdd634696b685220a12e086d388035998f3f65c22"
+      sha256 "c4dc2f50975a8894346216d9b4c4c392eba5baa63116325cbddbd3eed771fbc7"
     end
     on_intel do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-linux-amd64.tar.gz"
-      sha256 "5360739b492ab151df8c2627f662696b0b463c278fa5d7dc26b85c17c52be21d"
+      sha256 "bca6a3657a06f448d9dbfeaac77e583c227fa56bb650e2f4499d08bbe26d56ec"
     end
   end
 
