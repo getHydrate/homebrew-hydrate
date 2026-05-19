@@ -8,27 +8,32 @@ class Hydrate < Formula
   desc "Local-first persistent memory for Claude Code, Codex, Vibe, and MCP"
   homepage "https://gethydrate.dev"
   version "0.4.5"
-  license "Apache-2.0"
+  # Hydrate is a commercial product distributed as signed binaries
+  # under the Hydrate End User Licence Agreement (see LICENSE.txt
+  # bundled in the release tarball). The Homebrew `license` field
+  # accepts only SPDX identifiers for FOSS licences; :cannot_represent
+  # is the Homebrew-spec way to declare a non-FOSS licence.
+  license :cannot_represent
 
   on_macos do
     on_arm do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-darwin-arm64.tar.gz"
-      sha256 "bb78fe316b6645834dd80ea4792341c2af5b22380ee7e79be6a55d6eac75f54f"
+      sha256 "6f746d740b17f172e81c5b80bc2ca41bfcd31282f881ef8c4341c299c9d0a1e1"
     end
     on_intel do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-darwin-amd64.tar.gz"
-      sha256 "75dbdeb20e91f924045ccdcbff3461e3bd2e321c9a8277519d615bb5f662de08"
+      sha256 "cda0be0514b24fa38489e54da02d72580dddac1aebbe899e56175c8f5048fc55"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-linux-arm64.tar.gz"
-      sha256 "8bdf65a05e9a9215664034dd1e5d9075b9cba4e4a4c834e5a0eb74359c8d8d39"
+      sha256 "37b3320455a5c01cb2f1632bdd634696b685220a12e086d388035998f3f65c22"
     end
     on_intel do
       url "https://github.com/getHydrate/hydrate-public/releases/download/v0.4.5/hydrate-v0.4.5-linux-amd64.tar.gz"
-      sha256 "52c986f44182068b1a2d1c9ec179671384631eb5fa5cd2061ba04aa4608ec310"
+      sha256 "5360739b492ab151df8c2627f662696b0b463c278fa5d7dc26b85c17c52be21d"
     end
   end
 
