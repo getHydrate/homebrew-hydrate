@@ -7,7 +7,7 @@
 class Hydrate < Formula
   desc "Local-first persistent memory for Claude Code, Codex, Vibe, and MCP"
   homepage "https://gethydrate.dev"
-  version "0.6.6"
+  version "0.6.7"
   # Hydrate is a commercial product distributed as signed binaries
   # under the Hydrate End User Licence Agreement (see LICENSE.txt
   # bundled in the release tarball). The Homebrew `license` field
@@ -17,23 +17,23 @@ class Hydrate < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.6/hydrate-v0.6.6-darwin-arm64.tar.gz"
-      sha256 "817fee937d39b647bd79373017a0b8d9bd790c090f2bc78ce8cda17e7b18df0c"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.7/hydrate-v0.6.7-darwin-arm64.tar.gz"
+      sha256 "da667fef123120d659856e6307787056febc7b4cc2460031e20e5f02c21c15fb"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.6/hydrate-v0.6.6-darwin-amd64.tar.gz"
-      sha256 "9a602ab3a0a0ae28c4e02c74d297b86f163f987b6dbe9c03d017164f7f5834f6"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.7/hydrate-v0.6.7-darwin-amd64.tar.gz"
+      sha256 "70608dc1cb66082fcac6a3dd6e39dd0ff141d50a209cdf83d85b2b374cbe6994"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.6/hydrate-v0.6.6-linux-arm64.tar.gz"
-      sha256 "5f0b561d2aa7427f423ab31643d33f66fa3a60a843806f5d24aaaddcb8ca5314"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.7/hydrate-v0.6.7-linux-arm64.tar.gz"
+      sha256 "943497464fab433604028c78d3222f747539751a03fd9de1ba0bdf1d02704285"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.6/hydrate-v0.6.6-linux-amd64.tar.gz"
-      sha256 "96188fb7ab2cc70191fc48b65dfeed989ed93d94f32ec5323240f9b180826484"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.6.7/hydrate-v0.6.7-linux-amd64.tar.gz"
+      sha256 "7b83cd82f1d572378d4f98170f2a2f10a902e23a35ef205cdd4644808e74fd98"
     end
   end
 
