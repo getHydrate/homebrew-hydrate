@@ -7,7 +7,7 @@
 class Hydrate < Formula
   desc "Local-first persistent memory for Claude Code, Codex, Vibe, and MCP"
   homepage "https://gethydrate.dev"
-  version "0.9.0"
+  version "0.10.0"
   # Hydrate is a commercial product distributed as signed binaries
   # under the Hydrate End User Licence Agreement (see LICENSE.txt
   # bundled in the release tarball). The Homebrew `license` field
@@ -17,23 +17,23 @@ class Hydrate < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.9.0/hydrate-v0.9.0-darwin-arm64.tar.gz"
-      sha256 "4916d56a3abcdcf601e951255ff7bca7731495db5e13fc138d41e18627d037b7"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.10.0/hydrate-v0.10.0-darwin-arm64.tar.gz"
+      sha256 "390698778b19d5d6c7730902841776c4d215f923e1bc6d53c47c05a251dc1c6a"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.9.0/hydrate-v0.9.0-darwin-amd64.tar.gz"
-      sha256 "ece2e3a154355861eeab3b2b35bcec5ded66857489ec0fbf5ae003e6ac815f60"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.10.0/hydrate-v0.10.0-darwin-amd64.tar.gz"
+      sha256 "5ba7d4123f75c4c57e36028dfb19ec528ba206ffd4d3d7bc077c6af3cc77072b"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.9.0/hydrate-v0.9.0-linux-arm64.tar.gz"
-      sha256 "6b0e9183fb353e0f46e03ce989a76ff66229ac138d3298ae56659acf639dee6b"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.10.0/hydrate-v0.10.0-linux-arm64.tar.gz"
+      sha256 "5d53e9f597f2c5cde6d47b465d9d729b1f7aad0cae233f8777eae4917edb240e"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.9.0/hydrate-v0.9.0-linux-amd64.tar.gz"
-      sha256 "2da16bcc68a9b18945b27249941c7d2badd3612b75d8121692127c956fcb8346"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.10.0/hydrate-v0.10.0-linux-amd64.tar.gz"
+      sha256 "60ddd6349e6dfb0ec2ba1a37b141be21277f9990399752d95d29df25eb016d78"
     end
   end
 
@@ -45,14 +45,18 @@ class Hydrate < Formula
   # Supervise hydrate-server via `brew services` so the daemon starts at login
   # and respawns on crash — the Homebrew-idiomatic equivalent of the launchd /
   # systemd units `hydrate server install` writes for non-brew installs. The
-  # binary runs in the foreground here (brew/launchd is the supervisor); the
-  # port is pinned so the managed instance always owns Hydrate's default port.
+  # binary runs in the foreground here (brew/launchd is the supervisor).
+  # Deliberately NO HYDRATE_PORT: pinning it flips the daemon onto the
+  # explicit-port HOP branch and bypasses the D1 single-instance takeover, which
+  # is what made the managed daemon split-brain the dashboard live feed. With no
+  # HYDRATE_PORT the daemon takes the canonical path — it binds Hydrate's default
+  # port or takes it over from a live incumbent via the authenticated handoff,
+  # and never hops — which is how it "always owns the default port" correctly.
   # `hydrate setup` detects a brew install and defers to this rather than
   # writing a second, competing launchd agent.
   service do
     run [opt_bin/"hydrate-server"]
     keep_alive true
-    environment_variables HYDRATE_PORT: "49849"
     log_path "#{Dir.home}/.hydrate/server.log"
     error_log_path "#{Dir.home}/.hydrate/server.log"
   end
