@@ -7,7 +7,7 @@
 class Hydrate < Formula
   desc "Local-first persistent memory for Claude Code, Codex, Vibe, and MCP"
   homepage "https://gethydrate.dev"
-  version "0.12.1"
+  version "0.12.2"
   # Hydrate is a commercial product distributed as signed binaries
   # under the Hydrate End User Licence Agreement (see LICENSE.txt
   # bundled in the release tarball). The Homebrew `license` field
@@ -17,23 +17,23 @@ class Hydrate < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.1/hydrate-v0.12.1-darwin-arm64.tar.gz"
-      sha256 "a9298dce91684316ee976de30594354ea2567b5d66d03569c30f2ad9d27d62b6"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.2/hydrate-v0.12.2-darwin-arm64.tar.gz"
+      sha256 "6bd575d9f80e8cf9baba5b423253da968235ccbd991856daa626e8f025a44186"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.1/hydrate-v0.12.1-darwin-amd64.tar.gz"
-      sha256 "048c640676fc58a592bca247f67775b1077742cd1914114f53bfc03e88914f55"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.2/hydrate-v0.12.2-darwin-amd64.tar.gz"
+      sha256 "ddc34491f0fdc5e678c2a16f37f5fe8a28d47b9bf2baa0968f716a6791bad361"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.1/hydrate-v0.12.1-linux-arm64.tar.gz"
-      sha256 "237d7fd47b8a2a5da265cb8aa3ec91dcd0bd03dadd4696b9ccd6ce80752dc06e"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.2/hydrate-v0.12.2-linux-arm64.tar.gz"
+      sha256 "22e7a176e8c834d54fed367ef2eba423e145d28249e7d8a0afba89611a8fa37a"
     end
     on_intel do
-      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.1/hydrate-v0.12.1-linux-amd64.tar.gz"
-      sha256 "c212dbc646ecd351ca91654e73a4dac8c2969e807f2112d232ff0503b49dd178"
+      url "https://github.com/getHydrate/hydrate-public/releases/download/v0.12.2/hydrate-v0.12.2-linux-amd64.tar.gz"
+      sha256 "d940336e6be331af55e3f8925a10a5760f8ca0c3f8776c25278899c34aff6411"
     end
   end
 
